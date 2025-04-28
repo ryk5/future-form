@@ -90,7 +90,11 @@ export default function DashboardPage() {
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
           providers={['google']}
-          redirectTo={typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : ''}
+          redirectTo={
+            typeof window !== 'undefined'
+              ? `${window.location.origin}/dashboard`
+              : undefined
+          }
         />
       </div>
     );
