@@ -29,6 +29,7 @@ export default function DashboardPage() {
       supabase
         .from('forms')
         .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .then(({ data, error }) => {
           if (error) {
@@ -45,6 +46,7 @@ export default function DashboardPage() {
       supabase
         .from('forms')
         .select('*')
+        .eq('user_id', session.user.id)
         .order('created_at', { ascending: false })
         .then(({ data, error }) => {
           if (error) {
@@ -87,7 +89,7 @@ export default function DashboardPage() {
         <Auth
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
-          providers={['google', 'github']}
+          providers={['google']}
           redirectTo={typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : ''}
         />
       </div>
@@ -102,6 +104,7 @@ export default function DashboardPage() {
             <h1 className="text-3xl font-bold text-gray-900">My Forms</h1>
             <button
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={() => router.push('/forms/create')}
             >
               <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
               Create Form

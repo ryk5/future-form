@@ -111,6 +111,11 @@ export default function FormEditor({ params }: { params: { id: string } }) {
 
   const handlePublish = async () => {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        alert('You must be logged in to publish a form.');
+        return;
+      }
       const { error } = await supabase
         .from('forms')
         .upsert([
@@ -119,6 +124,7 @@ export default function FormEditor({ params }: { params: { id: string } }) {
             title,
             description,
             questions,
+            user_id: user.id,
           },
         ]);
 
