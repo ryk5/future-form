@@ -5,21 +5,22 @@ import { useRouter } from 'next/navigation';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { supabase } from '@/lib/supabase';
+import type { User } from '@supabase/supabase-js';
 
 export default function LoginPage() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
+      setUser(user ?? null);
       if (user) {
         router.replace('/dashboard');
       }
     });
     // Optionally, subscribe to auth state changes:
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user);
+      setUser(session?.user ?? null);
       if (session?.user) {
         router.replace('/dashboard');
       }
