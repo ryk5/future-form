@@ -282,30 +282,30 @@ export default function FormEditor({ params }: { params: { id: string } }) {
               </button>
 
               <div className="flex space-x-4">
-                {isPublished && (
-                  <a
-                    href={`/forms/${id}/responses`}
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    View Responses
-                  </a>
-                )}
-
                 {!isPublished ? (
                   <button
                     onClick={handlePublish}
                     className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                    disabled={questions.length === 0}
                   >
                     Publish Form
                   </button>
                 ) : (
-                  <button
-                    onClick={copyLink}
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    <LinkIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-                    {showCopied ? 'Copied!' : 'Copy Link'}
-                  </button>
+                  <>
+                    <a
+                      href={`/forms/${id}/responses`}
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      View Responses
+                    </a>
+                    <button
+                      onClick={copyLink}
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      <LinkIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                      {showCopied ? 'Copied!' : 'Copy Link'}
+                    </button>
+                  </>
                 )}
               </div>
             </div>
