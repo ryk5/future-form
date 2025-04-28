@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
@@ -23,4 +25,26 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes updown {
+  0%, 100% { transform: translateY(3px); }
+  50% { transform: translateY(-3px); }
+}
+.animate-\[updown_1\.5s_ease-in-out_infinite\] {
+  animation: updown 1.5s ease-in-out infinite;
+}
+
+@keyframes typing {
+  from { width: 0; border-right: 3px solid #6366f1; }
+  to { width: 100%; border-right: none; }
+}
+.typed-motto {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 1.2;
+  padding-bottom: 0.1em;
+  border-right: 3px solid #6366f1;
+  animation: typing 2s steps(20, end) 1 forwards;
 }
