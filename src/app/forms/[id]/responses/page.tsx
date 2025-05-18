@@ -48,15 +48,15 @@ export default function FormResponses({ params }: { params: { id: string } }) {
         if (formError) throw formError;
         setForm(formData);
 
-        // Fetch responses
+        // Fetch all responses for this form
         const { data: responseData, error: responseError } = await supabase
           .from('responses')
-          .select('*')
+          .select('*, user_id')
           .eq('form_id', id)
           .order('created_at', { ascending: false });
 
         if (responseError) throw responseError;
-        setResponses(responseData);
+        setResponses(responseData || []);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {

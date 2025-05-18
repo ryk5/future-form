@@ -29,7 +29,7 @@ export default function DashboardPage() {
       supabase
         .from('forms')
         .select('*')
-        // .eq('user_id', user.id)
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .then(({ data, error }) => {
           if (error) {
