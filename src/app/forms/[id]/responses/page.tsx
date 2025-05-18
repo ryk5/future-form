@@ -38,6 +38,12 @@ export default function FormResponses({ params }: { params: { id: string } }) {
   useEffect(() => {
     const fetchFormAndResponses = async () => {
       try {
+        // Get current user
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          throw new Error('You must be logged in to view responses');
+        }
+
         // Fetch form data
         const { data: formData, error: formError } = await supabase
           .from('forms')
@@ -46,6 +52,12 @@ export default function FormResponses({ params }: { params: { id: string } }) {
           .single();
 
         if (formError) throw formError;
+        
+        // Check if current user is the form owner
+        if (formData.user_id !== user.id) {
+          throw new Error('You do not have permission to view these responses');
+        }
+
         setForm(formData);
 
         // Fetch all responses for this form
@@ -59,6 +71,8 @@ export default function FormResponses({ params }: { params: { id: string } }) {
         setResponses(responseData || []);
       } catch (error) {
         console.error('Error fetching data:', error);
+        // Set form to null to trigger the "Form not found" UI
+        setForm(null);
       } finally {
         setIsLoading(false);
       }
