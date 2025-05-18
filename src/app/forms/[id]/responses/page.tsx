@@ -38,12 +38,6 @@ export default function FormResponses({ params }: { params: { id: string } }) {
   useEffect(() => {
     const fetchFormAndResponses = async () => {
       try {
-        // Get current user
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-          throw new Error('Not authenticated');
-        }
-
         // Fetch form data
         const { data: formData, error: formError } = await supabase
           .from('forms')
@@ -52,12 +46,6 @@ export default function FormResponses({ params }: { params: { id: string } }) {
           .single();
 
         if (formError) throw formError;
-        
-        // Check if user is the owner of the form
-        if (formData.user_id !== user.id) {
-          throw new Error('Not authorized to view these responses');
-        }
-        
         setForm(formData);
 
         // Fetch responses
@@ -71,13 +59,6 @@ export default function FormResponses({ params }: { params: { id: string } }) {
         setResponses(responseData);
       } catch (error) {
         console.error('Error fetching data:', error);
-        if (error instanceof Error) {
-          if (error.message === 'Not authorized to view these responses') {
-            // Show unauthorized message
-            setForm(null);
-            setResponses([]);
-          }
-        }
       } finally {
         setIsLoading(false);
       }
