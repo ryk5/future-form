@@ -169,12 +169,6 @@ function ChatForm({ questions }: { questions: any[] }) {
   const handleConfirm = async () => {
     setSubmitting(true);
     setError(null);
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      setError('You must be logged in to submit a response.');
-      setSubmitting(false);
-      return;
-    }
     const answers = responses.reduce((acc, r) => {
       acc[r.questionId] = r.answer;
       return acc;
@@ -183,7 +177,6 @@ function ChatForm({ questions }: { questions: any[] }) {
       {
         form_id: formId,
         answers,
-        user_id: user.id,
       },
     ]);
     setSubmitting(false);

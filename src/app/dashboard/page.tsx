@@ -25,10 +25,13 @@ export default function DashboardPage() {
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
       if (!user) return;
-      // Fetch forms from Supabase
+      // Fetch forms and their responses from Supabase
       supabase
         .from('forms')
-        .select('*')
+        .select(`
+          *,
+          responses (*)
+        `)
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .then(({ data, error }) => {
@@ -45,7 +48,10 @@ export default function DashboardPage() {
       if (!session?.user) return;
       supabase
         .from('forms')
-        .select('*')
+        .select(`
+          *,
+          responses (*)
+        `)
         .eq('user_id', session.user.id)
         .order('created_at', { ascending: false })
         .then(({ data, error }) => {
